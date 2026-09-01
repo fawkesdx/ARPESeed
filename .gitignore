@@ -1,0 +1,64 @@
+# Large generated data
+*.npy
+*.pth
+supervised/
+corpus_*/
+venv/
+.venv/
+ARPESeed venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# Secrets / local ops (never commit)
+*.exp
+run_einstein*.sh
+push_*.sh
+pull_*.sh
+deploy_*.exp
+
+# Large media
+*.pdf
+presentation_report*
+ARPES_AI_review_article.pdf
+isoenergy_*.png
+aurelia_*.png
+dataset_examples_grid.png
+gui_sample.png
+arpeseed_verify.png
+arpeseed_benchmark_preview.png
+*.png
+!archive/**/*.png
+
+# Internal dev notes (keep local only)
+IDEAS_LOG.md
+PROJECT_STATUS.md
+TRAINING_RESULTS.md
+SAMPLE_VIEWER.md
+RELEASE.md
+ARPESeed_venv_README.md
+presentation_report*
+temp.html
+package.json
+
+# Legacy one-off scripts at repo root
+test_*.py
+plot_*.py
+generate_*.py
+!arpeseed_gen_direct.py
+diagnose_*.py
+eval_geom.py
+fix_labels.py
+aurelia_*.py
+remote_gen.py
+user_uploaded_check.py
+md_to_pdf*.py
+embed_base64.py
+
+# OS / editor
+.DS_Store
+.cursor/
+
+# Logs
+*.log
+arpeseed_train.log*

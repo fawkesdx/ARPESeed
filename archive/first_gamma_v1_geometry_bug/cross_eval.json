@@ -1,0 +1,45 @@
+{
+  "description": "2x2 cross-corpus evaluation — completed 2026-09-01 after v2 training",
+  "split": "seeded 80/20 (SPLIT_SEED=12345) validation set only",
+  "date_completed": "2026-09-01",
+  "status": "complete",
+  "models": {
+    "old_model": "ML_pipeline/supervised/first_gamma/best_gamma_model.pth (v1, trained on buggy corpus)",
+    "new_model": "arpeseed_first_gamma_new.pth (v2, trained on corpus_first_gamma_direct)"
+  },
+  "results": {
+    "old_model|old_corpus": {
+      "n": 9999,
+      "mse": 0.0918,
+      "mean_radial_deg": 0.258,
+      "median_radial_deg": 0.179,
+      "p95_radial_deg": 0.694,
+      "note": "Buggy model on buggy data — inflated benchmark"
+    },
+    "old_model|new_corpus": {
+      "n": 10000,
+      "mse": 7.850,
+      "mean_radial_deg": 2.503,
+      "median_radial_deg": 0.641,
+      "p95_radial_deg": 8.543,
+      "note": "Buggy model breaks on correct physics"
+    },
+    "new_model|old_corpus": {
+      "n": 9999,
+      "mse": 4.619,
+      "mean_radial_deg": 1.855,
+      "median_radial_deg": 0.757,
+      "p95_radial_deg": 7.234,
+      "note": "v2 model on buggy data — not symmetric with old-on-new (geometry mismatch)"
+    },
+    "new_model|new_corpus": {
+      "n": 10000,
+      "mse": 3.961,
+      "mean_radial_deg": 1.792,
+      "median_radial_deg": 0.826,
+      "p95_radial_deg": 6.559,
+      "note": "Honest v2 headline: ~1.8 deg mean radial on corrected synthetic data"
+    }
+  },
+  "conclusion": "v1 ±0.26 deg was an artifact of the geometry bug. v2 honest accuracy is ~1.8 deg mean (~0.83 deg median). Einstein v1 41 GB corpus deleted; tombstone archive retained."
+}

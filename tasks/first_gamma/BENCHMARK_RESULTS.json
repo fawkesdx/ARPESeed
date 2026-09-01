@@ -1,0 +1,22 @@
+{
+  "benchmark": "benchmark_first_gamma_v1",
+  "samples": 1500,
+  "samples_per_regime": 500,
+  "model": "arpeseed_first_gamma_v2",
+  "artifact": "arpeseed/first-gamma-v2",
+  "date": "2026-09-01",
+  "note": "Full benchmark set (not a held-out split). OOD vs training: oblique lattices, two-band spectra, Lorentzian lineshapes, varied background, +/-10 deg Gamma, small hv steps, slit shadow, dead stripes.",
+  "in_distribution_val": {
+    "mean_radial_deg": 1.792,
+    "median_radial_deg": 0.826,
+    "mse": 3.961
+  },
+  "ood_benchmark": {
+    "n": 1500,
+    "mse": 23.656,
+    "mean_radial_deg": 5.412,
+    "median_radial_deg": 4.680,
+    "p95_radial_deg": 13.376
+  },
+  "interpretation": "Model degrades on OOD benchmark (~3x mean error vs in-distribution val). Expected for synthetic-only training without oblique/two-band/detector artifacts. Real beamline fine-tuning or expanded training distribution needed for production alignment."
+}

@@ -1,0 +1,293 @@
+{
+  "artifact": "arpeseed/first-gamma-v1-buggy-corpus",
+  "status": "retired",
+  "retired_date": "2026-09-01",
+  "original_sample_count": 50148,
+  "original_size_gb": 41,
+  "forensic_sample_count": 40,
+  "bug_summary": "Gamma offset in angle before sin; missing cos(theta) in kx",
+  "buggy_generator": "generate_full_corpus_fast.py",
+  "replacement_generator": "arpeseed_gen_direct.py",
+  "samples": [
+    {
+      "archive_name": "range_20_70__sample_0000.npy",
+      "regime": "range_20_70",
+      "original_filename": "sample_0000.npy",
+      "x_gamma": "-0.2820",
+      "y_gamma": "2.3904"
+    },
+    {
+      "archive_name": "range_20_70__sample_0050.npy",
+      "regime": "range_20_70",
+      "original_filename": "sample_0050.npy",
+      "x_gamma": "-4.5894",
+      "y_gamma": "1.6129"
+    },
+    {
+      "archive_name": "range_20_70__sample_0200.npy",
+      "regime": "range_20_70",
+      "original_filename": "sample_0200.npy",
+      "x_gamma": "-6.3868",
+      "y_gamma": "6.1079"
+    },
+    {
+      "archive_name": "range_20_70__sample_0500.npy",
+      "regime": "range_20_70",
+      "original_filename": "sample_0500.npy",
+      "x_gamma": "0.2726",
+      "y_gamma": "-1.6447"
+    },
+    {
+      "archive_name": "range_20_70__sample_1000.npy",
+      "regime": "range_20_70",
+      "original_filename": "sample_1000.npy",
+      "x_gamma": "-0.6232",
+      "y_gamma": "1.6811"
+    },
+    {
+      "archive_name": "range_20_70__sample_2000.npy",
+      "regime": "range_20_70",
+      "original_filename": "sample_2000.npy",
+      "x_gamma": "0.9570",
+      "y_gamma": "-6.5371"
+    },
+    {
+      "archive_name": "range_20_70__sample_4000.npy",
+      "regime": "range_20_70",
+      "original_filename": "sample_4000.npy",
+      "x_gamma": "-2.2392",
+      "y_gamma": "-0.2412"
+    },
+    {
+      "archive_name": "range_20_70__sample_6000.npy",
+      "regime": "range_20_70",
+      "original_filename": "sample_6000.npy",
+      "x_gamma": "-2.3194",
+      "y_gamma": "3.9943"
+    },
+    {
+      "archive_name": "range_20_70__sample_8000.npy",
+      "regime": "range_20_70",
+      "original_filename": "sample_8000.npy",
+      "x_gamma": "7.2977",
+      "y_gamma": "-1.4562"
+    },
+    {
+      "archive_name": "range_20_70__sample_10000.npy",
+      "regime": "range_20_70",
+      "original_filename": "sample_10000.npy",
+      "x_gamma": "7.7511",
+      "y_gamma": "-4.0324"
+    },
+    {
+      "archive_name": "range_20_70__sample_12000.npy",
+      "regime": "range_20_70",
+      "original_filename": "sample_12000.npy",
+      "x_gamma": "-3.0053",
+      "y_gamma": "4.5052"
+    },
+    {
+      "archive_name": "range_20_70__sample_14000.npy",
+      "regime": "range_20_70",
+      "original_filename": "sample_14000.npy",
+      "x_gamma": "3.4671",
+      "y_gamma": "5.2181"
+    },
+    {
+      "archive_name": "range_20_70__sample_16000.npy",
+      "regime": "range_20_70",
+      "original_filename": "sample_16000.npy",
+      "x_gamma": "-0.2576",
+      "y_gamma": "6.7642"
+    },
+    {
+      "archive_name": "range_20_70__sample_16615.npy",
+      "regime": "range_20_70",
+      "original_filename": "sample_16615.npy",
+      "x_gamma": "4.7870",
+      "y_gamma": "4.5413"
+    },
+    {
+      "archive_name": "range_60_150__sample_0000.npy",
+      "regime": "range_60_150",
+      "original_filename": "sample_0000.npy",
+      "x_gamma": "-6.7084",
+      "y_gamma": "-5.4108"
+    },
+    {
+      "archive_name": "range_60_150__sample_0042.npy",
+      "regime": "range_60_150",
+      "original_filename": "sample_0042.npy",
+      "x_gamma": "-0.8969",
+      "y_gamma": "-1.2961"
+    },
+    {
+      "archive_name": "range_60_150__sample_0100.npy",
+      "regime": "range_60_150",
+      "original_filename": "sample_0100.npy",
+      "x_gamma": "5.3307",
+      "y_gamma": "1.6016"
+    },
+    {
+      "archive_name": "range_60_150__sample_0500.npy",
+      "regime": "range_60_150",
+      "original_filename": "sample_0500.npy",
+      "x_gamma": "-3.2183",
+      "y_gamma": "1.7052"
+    },
+    {
+      "archive_name": "range_60_150__sample_0999.npy",
+      "regime": "range_60_150",
+      "original_filename": "sample_0999.npy",
+      "x_gamma": "0.9244",
+      "y_gamma": "4.4803"
+    },
+    {
+      "archive_name": "range_60_150__sample_2000.npy",
+      "regime": "range_60_150",
+      "original_filename": "sample_2000.npy",
+      "x_gamma": "-6.0427",
+      "y_gamma": "-3.9837"
+    },
+    {
+      "archive_name": "range_60_150__sample_3333.npy",
+      "regime": "range_60_150",
+      "original_filename": "sample_3333.npy",
+      "x_gamma": "1.9954",
+      "y_gamma": "-1.2886"
+    },
+    {
+      "archive_name": "range_60_150__sample_5000.npy",
+      "regime": "range_60_150",
+      "original_filename": "sample_5000.npy",
+      "x_gamma": "-7.7034",
+      "y_gamma": "-2.9420"
+    },
+    {
+      "archive_name": "range_60_150__sample_7777.npy",
+      "regime": "range_60_150",
+      "original_filename": "sample_7777.npy",
+      "x_gamma": "6.6099",
+      "y_gamma": "-6.4591"
+    },
+    {
+      "archive_name": "range_60_150__sample_10000.npy",
+      "regime": "range_60_150",
+      "original_filename": "sample_10000.npy",
+      "x_gamma": "7.8597",
+      "y_gamma": "-3.8762"
+    },
+    {
+      "archive_name": "range_60_150__sample_12000.npy",
+      "regime": "range_60_150",
+      "original_filename": "sample_12000.npy",
+      "x_gamma": "-7.5631",
+      "y_gamma": "2.8406"
+    },
+    {
+      "archive_name": "range_60_150__sample_14000.npy",
+      "regime": "range_60_150",
+      "original_filename": "sample_14000.npy",
+      "x_gamma": "-1.1177",
+      "y_gamma": "-0.3814"
+    },
+    {
+      "archive_name": "range_60_150__sample_16000.npy",
+      "regime": "range_60_150",
+      "original_filename": "sample_16000.npy",
+      "x_gamma": "4.6163",
+      "y_gamma": "-4.0009"
+    },
+    {
+      "archive_name": "range_350_1000__sample_0000.npy",
+      "regime": "range_350_1000",
+      "original_filename": "sample_0000.npy",
+      "x_gamma": "3.3485",
+      "y_gamma": "7.3162"
+    },
+    {
+      "archive_name": "range_350_1000__sample_0042.npy",
+      "regime": "range_350_1000",
+      "original_filename": "sample_0042.npy",
+      "x_gamma": "-0.8923",
+      "y_gamma": "1.8750"
+    },
+    {
+      "archive_name": "range_350_1000__sample_0420.npy",
+      "regime": "range_350_1000",
+      "original_filename": "sample_0420.npy",
+      "x_gamma": "-0.1531",
+      "y_gamma": "0.7873"
+    },
+    {
+      "archive_name": "range_350_1000__sample_1000.npy",
+      "regime": "range_350_1000",
+      "original_filename": "sample_1000.npy",
+      "x_gamma": "3.7854",
+      "y_gamma": "-4.3447"
+    },
+    {
+      "archive_name": "range_350_1000__sample_1337.npy",
+      "regime": "range_350_1000",
+      "original_filename": "sample_1337.npy",
+      "x_gamma": "-1.1334",
+      "y_gamma": "-4.1821"
+    },
+    {
+      "archive_name": "range_350_1000__sample_3000.npy",
+      "regime": "range_350_1000",
+      "original_filename": "sample_3000.npy",
+      "x_gamma": "-2.3569",
+      "y_gamma": "3.6107"
+    },
+    {
+      "archive_name": "range_350_1000__sample_4200.npy",
+      "regime": "range_350_1000",
+      "original_filename": "sample_4200.npy",
+      "x_gamma": "-4.2864",
+      "y_gamma": "3.0059"
+    },
+    {
+      "archive_name": "range_350_1000__sample_7000.npy",
+      "regime": "range_350_1000",
+      "original_filename": "sample_7000.npy",
+      "x_gamma": "4.9845",
+      "y_gamma": "-7.0953"
+    },
+    {
+      "archive_name": "range_350_1000__sample_9000.npy",
+      "regime": "range_350_1000",
+      "original_filename": "sample_9000.npy",
+      "x_gamma": "7.3518",
+      "y_gamma": "-1.4312"
+    },
+    {
+      "archive_name": "range_350_1000__sample_11000.npy",
+      "regime": "range_350_1000",
+      "original_filename": "sample_11000.npy",
+      "x_gamma": "-3.9192",
+      "y_gamma": "2.9986"
+    },
+    {
+      "archive_name": "range_350_1000__sample_13000.npy",
+      "regime": "range_350_1000",
+      "original_filename": "sample_13000.npy",
+      "x_gamma": "-7.9359",
+      "y_gamma": "4.8347"
+    },
+    {
+      "archive_name": "range_350_1000__sample_15000.npy",
+      "regime": "range_350_1000",
+      "original_filename": "sample_15000.npy",
+      "x_gamma": "-1.6026",
+      "y_gamma": "-5.7550"
+    },
+    {
+      "archive_name": "range_350_1000__sample_16600.npy",
+      "regime": "range_350_1000",
+      "original_filename": "sample_16600.npy",
+      "x_gamma": "2.7984",
+      "y_gamma": "1.8183"
+    }
+  ]
+}
