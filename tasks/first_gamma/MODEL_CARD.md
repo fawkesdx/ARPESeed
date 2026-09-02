@@ -12,8 +12,9 @@
 | **Type** | Supervised 2D coordinate regression |
 | **Architecture** | ResNet18 (ImageNet init), `fc` → `Linear(512, 2)` |
 | **Parameters** | 11.2 M — ~44.8 MB |
-| **Checkpoint** | `arpeseed_first_gamma_v2.pth` (not in git; train or request weights) |
-| **Trained** | 2026-09-01, 2× Tesla V100, DDP, AMP, 40 epochs (best epoch 19) |
+| **Default checkpoint** | `arpeseed_first_gamma_v2.pth` (not in git; train or request weights) |
+| **Alternate** | `arpeseed_first_gamma_v2_es.pth` — cached corpus + early stop (see below) |
+| **Trained** | 2026-09-01, 2× Tesla V100, DDP, AMP |
 | **Generator** | `arpeseed_gen_direct.py` — correct momentum-space Γ offset |
 | **License** | TBD |
 | **Contact** | Sandy Adhitia Ekahana — sekahana@lbl.gov |
@@ -55,7 +56,19 @@ Poisson noise: peak 1.0 count, background 5.0.
 
 ## Reported performance
 
-**In-distribution validation** (seeded 80/20 split, `SPLIT_SEED=12345`):
+### Checkpoints compared (2026-09-01)
+
+| Checkpoint | Training | Best epoch | Val mean radial | OOD mean radial |
+| --- | --- | --- | --- | --- |
+| **v2** (`arpeseed_first_gamma_v2.pth`) | raw corpus, 40 epochs | 19 | **1.79°** | 5.41° |
+| **v2-es** (`arpeseed_first_gamma_v2_es.pth`) | cached corpus, early stop | 17 | 1.89° | **5.36°** |
+
+**Recommendation:** use **v2** by default (best in-distribution). **v2-es** is marginally better on
+the OOD benchmark and trains faster on disk-bound setups; difference is small (~0.05° OOD mean).
+
+Full numbers: [BENCHMARK_RESULTS.json](BENCHMARK_RESULTS.json).
+
+### v2 — in-distribution validation (seeded 80/20 split, `SPLIT_SEED=12345`)
 
 | Metric | Best (epoch 19) |
 | --- | --- |
@@ -64,21 +77,29 @@ Poisson noise: peak 1.0 count, background 5.0.
 | Median radial error | 0.83° |
 | p95 radial error | 6.56° |
 
-**Cross-corpus** (`archive/first_gamma_v1_geometry_bug/cross_eval.json`):
+### v2-es — in-distribution validation (same split)
 
-| Corpus | Mean radial |
+| Metric | Best (epoch 17, early stop at 22) |
 | --- | --- |
-| Corrected training corpus (v2) | **1.79°** |
-| Retired buggy corpus (v1) | 1.86° |
+| Val MSE | 4.10 deg² |
+| Mean radial error | 1.89° |
+| Median radial error | 0.95° |
+| p95 radial error | 6.61° |
 
-**OOD benchmark** — see [BENCHMARK_RESULTS.json](BENCHMARK_RESULTS.json):
+### OOD benchmark (`benchmark_first_gamma_v1`, 1500 samples)
 
-| Split | Mean radial | Median | p95 |
+| Checkpoint | Mean radial | Median | p95 |
 | --- | --- | --- | --- |
-| In-distribution val | **1.79°** | 0.83° | 6.56° |
-| OOD benchmark | **5.41°** | 4.68° | 13.38° |
+| v2 | 5.41° | 4.68° | 13.38° |
+| v2-es | **5.36°** | 4.67° | 12.59° |
 
-Train MSE at epoch 40: **0.73** vs val **4.08** — overfitting after epoch ~19.
+OOD set: oblique lattices, two-band spectra, Lorentzian lineshapes, varied background,
+±10° Γ, small hν steps, slit vignetting, dead stripes.
+
+### Cross-corpus (v2 only)
+
+See `archive/first_gamma_v1_geometry_bug/cross_eval.json` — v2 on corrected corpus **1.79°**,
+v1 on corrected corpus 2.50°.
 
 ### Comparison to v1 (why the headline changed)
 
@@ -91,7 +112,7 @@ Train MSE at epoch 40: **0.73** vs val **4.08** — overfitting after epoch ~19.
 ## Known limitations
 
 - Synthetic only — no real beamline validation yet
-- Overfitting gap (train 0.73 vs val 4.0)
+- Overfitting after ~epoch 17–19 on both checkpoints
 - OOD benchmark ~5.4° mean — oblique lattices, detector artifacts not in training set
 - No confidence score
 
@@ -101,4 +122,5 @@ Train MSE at epoch 40: **0.73** vs val **4.08** — overfitting after epoch ~19.
 | --- | --- |
 | Corpus generator | `arpeseed_gen_direct.py` |
 | Training | `arpeseed_train_eval.py` |
+| Cached corpus | `arpeseed_cache_normalized.py` |
 | Cross-eval | `archive/first_gamma_v1_geometry_bug/cross_eval.json` |

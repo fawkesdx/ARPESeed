@@ -8,7 +8,7 @@ Part of the [TensorSpec](https://github.com/fawkesdx/TensorSpec) ecosystem. Trai
 
 | Task | Artifact | Status |
 |------|----------|--------|
-| [First Γ finder](tasks/first_gamma/) | `arpeseed/first-gamma-v2` | trained, evaluated |
+| [First Γ finder](tasks/first_gamma/) | `arpeseed/first-gamma-v2` (default), `v2-es` (alternate) | trained, evaluated |
 | [Denoising](tasks/denoising/) | `arpeseed/denoise-v1` | scaffold |
 
 ## Quick start

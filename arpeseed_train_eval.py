@@ -405,6 +405,7 @@ if __name__ == "__main__":
         default=0,
         help="stop if val MSE does not improve for N epochs (0=disabled; try 5)",
     )
+    t.add_argument("--amp", action="store_true", help="mixed-precision training on CUDA")
 
     e = sub.add_parser("eval")
     e.add_argument("--model", required=True)

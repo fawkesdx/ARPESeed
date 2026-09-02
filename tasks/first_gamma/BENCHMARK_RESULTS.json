@@ -2,21 +2,48 @@
   "benchmark": "benchmark_first_gamma_v1",
   "samples": 1500,
   "samples_per_regime": 500,
-  "model": "arpeseed_first_gamma_v2",
-  "artifact": "arpeseed/first-gamma-v2",
   "date": "2026-09-01",
   "note": "Full benchmark set (not a held-out split). OOD vs training: oblique lattices, two-band spectra, Lorentzian lineshapes, varied background, +/-10 deg Gamma, small hv steps, slit shadow, dead stripes.",
-  "in_distribution_val": {
-    "mean_radial_deg": 1.792,
-    "median_radial_deg": 0.826,
-    "mse": 3.961
+  "models": {
+    "arpeseed/first-gamma-v2": {
+      "checkpoint": "arpeseed_first_gamma_v2.pth",
+      "best_epoch": 19,
+      "training": "raw corpus, 40 epochs, DDP+AMP",
+      "in_distribution_val": {
+        "n": 10000,
+        "mse": 3.961,
+        "mean_radial_deg": 1.792,
+        "median_radial_deg": 0.826,
+        "p95_radial_deg": 6.559
+      },
+      "ood_benchmark": {
+        "n": 1500,
+        "mse": 23.656,
+        "mean_radial_deg": 5.412,
+        "median_radial_deg": 4.680,
+        "p95_radial_deg": 13.376
+      }
+    },
+    "arpeseed/first-gamma-v2-es": {
+      "checkpoint": "arpeseed_first_gamma_v2_es.pth",
+      "best_epoch": 17,
+      "training": "pre-z-scored cached corpus, early stop patience 5",
+      "in_distribution_val": {
+        "n": 10000,
+        "mse": 4.101,
+        "mean_radial_deg": 1.888,
+        "median_radial_deg": 0.952,
+        "p95_radial_deg": 6.611
+      },
+      "ood_benchmark": {
+        "n": 1500,
+        "mse": 22.326,
+        "mean_radial_deg": 5.357,
+        "median_radial_deg": 4.666,
+        "p95_radial_deg": 12.593
+      }
+    }
   },
-  "ood_benchmark": {
-    "n": 1500,
-    "mse": 23.656,
-    "mean_radial_deg": 5.412,
-    "median_radial_deg": 4.680,
-    "p95_radial_deg": 13.376
-  },
-  "interpretation": "Model degrades on OOD benchmark (~3x mean error vs in-distribution val). Expected for synthetic-only training without oblique/two-band/detector artifacts. Real beamline fine-tuning or expanded training distribution needed for production alignment."
+  "recommendation": "Default inference: first-gamma-v2 (slightly better in-distribution val). v2-es is marginally better on OOD benchmark (~0.05 deg mean) with faster training I/O.",
+  "interpretation": "Both models degrade ~3x on OOD vs in-distribution val. Expected for synthetic-only training without oblique/two-band/detector artifacts in the training set."
 }
