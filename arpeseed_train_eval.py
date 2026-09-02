@@ -42,12 +42,15 @@ from torchvision.models import ResNet18_Weights, resnet18
 REGIMES = ["range_20_70", "range_60_150", "range_350_1000"]
 
 _DATA_ROOT = os.environ.get("ARPESEED_DATA_ROOT", "data")
-CORPORA = {
-    "old": os.path.join(_DATA_ROOT, "corpus_finding_first_gamma"),
-    "new": os.path.join(_DATA_ROOT, "corpus_first_gamma_direct"),
-    "new_cached": os.path.join(_DATA_ROOT, "corpus_first_gamma_direct_cached"),
-    "benchmark": os.path.join(_DATA_ROOT, "benchmark_first_gamma_v1"),
+_CORPUS = {
+    "old": "corpus_finding_first_gamma",
+    "new": "corpus_first_gamma_direct",
+    "new_cached": "corpus_first_gamma_direct_cached",
+    "hardmix": "corpus_first_gamma_hardmix",
+    "hardmix_cached": "corpus_first_gamma_hardmix_cached",
+    "benchmark": "benchmark_first_gamma_v1",
 }
+CORPORA = {k: os.path.join(_DATA_ROOT, v) for k, v in _CORPUS.items()}
 
 SPLIT_SEED = 12345
 VAL_FRACTION = 0.2
