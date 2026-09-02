@@ -1,7 +1,7 @@
-# Model Card — `arpeseed/first-gamma-v2.1` (recommended)
+# Model Card — `arpeseed/first-gamma-v2.2` (recommended)
 
-> **Status:** trained and evaluated on synthetic data.
-> **Supersedes:** v2 / v2-es for OOD and varied beamline conditions.
+> **Status:** trained and evaluated on synthetic data only.
+> **Supersedes:** v2, v2-es, v2.1.
 > **Retired:** `arpeseed/first-gamma-v1` — tombstone in `archive/first_gamma_v1_geometry_bug/`.
 
 ## Summary
@@ -13,20 +13,20 @@
 | **Type** | Supervised 2D coordinate regression |
 | **Architecture** | ResNet18 (ImageNet init), `fc` → `Linear(512, 2)` |
 | **Parameters** | 11.2 M — ~44.8 MB |
-| **Recommended checkpoint** | **`arpeseed_first_gamma_v2_1.pth`** — hard-mix training, best OOD |
-| **Alternate (easy val)** | `arpeseed_first_gamma_v2.pth` — 1.79° on easy-corpus val |
-| **Trained** | 2026-09-01, 2× Tesla V100, DDP, AMP, early stop |
-| **Generator** | `arpeseed_gen_direct.py --hard-mix` |
+| **Recommended checkpoint** | **`arpeseed_first_gamma_v2_2.pth`** |
+| **Trained** | 2026-09-02, 2× Tesla V100, DDP, AMP, early stop (epoch 13) |
+| **Training data** | Mixed easy (50k) + hard-mix w/ detector artifacts (50k), cached |
+| **Generator** | `arpeseed_gen_direct.py` + `--hard-mix` |
 | **License** | TBD |
 | **Contact** | Sandy Adhitia Ekahana — sekahana@lbl.gov |
 
 ## Intended use
 
-Coarse live alignment from a 1-second test scan (three photon energies). **Prefer v2.1** when
-sample geometry, lineshape, or background may differ from the easy training set. Use v2 if you
-know scans match the original square/hex/rect Gaussian training distribution.
+Coarse live alignment from a 1-second test scan (three photon energies). **v2.2 is the default**
+checkpoint — best reported easy-val and OOD numbers among released models.
 
-Not a substitute for full Fermi-surface mapping. No uncertainty estimate.
+**Synthetic training only.** Not validated on real beamline data. Fine-tune on local scans before
+production use. No uncertainty estimate.
 
 ## Inputs and outputs
 
@@ -39,7 +39,7 @@ from torchvision.models import resnet18
 
 model = resnet18(weights=None)
 model.fc = torch.nn.Linear(model.fc.in_features, 2)
-model.load_state_dict(torch.load("arpeseed_first_gamma_v2_1.pth", map_location="cpu"))
+model.load_state_dict(torch.load("arpeseed_first_gamma_v2_2.pth", map_location="cpu"))
 model.eval()
 
 x = np.load("scan.npy").astype(np.float32)
@@ -50,72 +50,65 @@ with torch.no_grad():
     phi_gamma, theta_gamma = model(torch.from_numpy(x)[None]).numpy()[0]
 ```
 
-Or: `python arpeseed_predict.py scan.npy --weights arpeseed_first_gamma_v2_1.pth`
+Or: `python arpeseed_predict.py scan.npy --weights arpeseed_first_gamma_v2_2.pth`
 
 ## Training data
 
-50,001 synthetic samples from `arpeseed_gen_direct.py --hard-mix`:
+100k synthetic samples total — mixed training run:
 
-- Oblique lattices (~15%), two-band spectra (~25%), Lorentzian + Gaussian lineshapes
-- Background 2 / 5 / 10 counts, ±10° Γ, small hν steps
-- Same correct momentum-space Γ offset as v2
+| Corpus | N | Contents |
+| --- | --- | --- |
+| Easy | 50,001 | Square / hex / rect, Gaussian, bg=5 |
+| Hard-mix | 50,001 | Oblique, two-band, Lorentzian, bg 2/5/10, ±10° Γ, slit shadow, dead stripes |
 
 ## Reported performance
 
-### Which checkpoint?
+Full lineage: [MODEL_HISTORY.md](MODEL_HISTORY.md) · [BENCHMARK_RESULTS.json](BENCHMARK_RESULTS.json)
 
-| Checkpoint | Training corpus | Val mean radial | **OOD mean radial** |
+### v2.2 vs previous releases
+
+| Checkpoint | Easy val mean | OOD mean | OOD median |
 | --- | --- | --- | --- |
-| **v2.1** | hard-mix | 4.36° (hard val) | **4.82°** |
-| v2 | easy | **1.79°** | 5.41° |
-| v2-es | easy (cached) | 1.89° | 5.36° |
+| v2 | 1.79° | 5.41° | 4.68° |
+| v2.1 | 4.36° (hard only) | 4.82° | 3.96° |
+| **v2.2** | **1.66°** | **4.42°** | **3.21°** |
 
-**Use v2.1 by default** — best on the independent OOD benchmark (~0.6° better than v2).
-
-Full numbers: [BENCHMARK_RESULTS.json](BENCHMARK_RESULTS.json).
-
-### v2.1 — OOD benchmark (`benchmark_first_gamma_v1`, 1500 samples)
-
-| Metric | v2.1 | v2 (previous) |
-| --- | --- | --- |
-| Mean radial | **4.82°** | 5.41° |
-| Median | **3.96°** | 4.68° |
-| p95 | **11.61°** | 13.38° |
-| MSE | **18.28 deg²** | 23.66 deg² |
-
-OOD set includes oblique lattices, two-band spectra, Lorentzian lineshapes, varied background,
-±10° Γ, small hν steps, slit vignetting, dead stripes. Training hard-mix covers material/instrument
-axes but not yet slit shadows / dead stripes.
-
-### v2.1 — in-distribution validation (hard-mix corpus, epoch 14)
+### v2.2 — easy-corpus validation (`corpus_first_gamma_direct`, n=10k)
 
 | Metric | Value |
 | --- | --- |
-| Val MSE | 15.69 deg² |
-| Mean radial | 4.36° |
+| Mean radial | **1.66°** |
+| Median | 0.95° |
+| p95 | 5.55° |
+| MSE | 3.03 deg² |
 
-Not comparable to v2's 1.79° — harder training distribution by design.
+### v2.2 — OOD benchmark (`benchmark_first_gamma_v1`, n=1500)
 
-### v2 — easy-corpus validation (reference)
-
-| Metric | Best (epoch 19) |
+| Metric | Value |
 | --- | --- |
-| Val MSE | 3.96 deg² |
-| Mean radial | **1.79°** |
+| Mean radial | **4.42°** |
+| Median | 3.21° |
+| p95 | 11.28° |
+| MSE | 16.61 deg² |
+
+### v2.2 — mixed-corpus validation (training split, epoch 13)
+
+| Metric | Value |
+| --- | --- |
+| Mean radial | 2.87° |
+| MSE | 8.81 deg² |
 
 ## Known limitations
 
-- Synthetic only — no real beamline validation yet
-- OOD ~4.8° mean — improved but not sub-degree on hard cases
-- Detector artifacts (slit shadow, dead stripes) in benchmark but not in training generator yet
+- Synthetic only — no real beamline validation
+- OOD ~4.4° mean — improved but not sub-degree on hardest cases
 - No confidence score
 
 ## Reproducibility
 
 | Component | File |
 | --- | --- |
-| Hard-mix generator | `arpeseed_gen_direct.py --hard-mix` |
-| Training | `arpeseed_train_eval.py --corpus hardmix_cached` |
-| Cached corpus | `arpeseed_cache_normalized.py` |
+| Generator | `arpeseed_gen_direct.py --hard-mix` |
+| Training | `arpeseed_train_eval.py --corpus mixed_cached` |
+| Cached corpora | `arpeseed_cache_normalized.py` |
 | OOD benchmark | `arpeseed_benchmark.py` |
-| Cross-eval (v1/v2) | `archive/first_gamma_v1_geometry_bug/cross_eval.json` |

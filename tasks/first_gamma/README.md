@@ -1,13 +1,16 @@
 # first-gamma — locate Γ in noisy isoenergy stacks
 
-**Recommended artifact:** `arpeseed/first-gamma-v2.1`  
-**Checkpoint:** `arpeseed_first_gamma_v2_1.pth` (OOD benchmark **4.82°** mean radial)
+**Recommended:** `arpeseed/first-gamma-v2.2` → `arpeseed_first_gamma_v2_2.pth`
+
+| Metric | v2.2 |
+|--------|------|
+| Easy val | **1.66°** |
+| OOD benchmark | **4.42°** |
 
 - [Model card](MODEL_CARD.md)
+- [Model history](MODEL_HISTORY.md) — full lineage for paper / Zenodo
 - [Benchmark results](BENCHMARK_RESULTS.json)
 
-Also available: `v2` (1.79° easy-corpus val), `v2-es` (training I/O variant).
+[GitHub Release v2.2](https://github.com/fawkesdx/ARPESeed/releases/tag/first-gamma-v2.2)
 
-Weights not in git — [GitHub Release v2.1](https://github.com/fawkesdx/ARPESeed/releases/tag/first-gamma-v2.1) or train locally.
-
-**Synthetic training only** — see [MODEL_HISTORY.md](MODEL_HISTORY.md) for all versions.
+**Synthetic training only** — not validated on real beamline data.

@@ -10,7 +10,7 @@ Part of the [TensorSpec](https://github.com/fawkesdx/TensorSpec) ecosystem. Trai
 
 | Task | Artifact | Status |
 |------|----------|--------|
-| [First Γ finder](tasks/first_gamma/) | **`arpeseed/first-gamma-v2.1`** — [history](tasks/first_gamma/MODEL_HISTORY.md) | trained, evaluated |
+| [First Γ finder](tasks/first_gamma/) | **`arpeseed/first-gamma-v2.2`** — [history](tasks/first_gamma/MODEL_HISTORY.md) | trained, evaluated |
 | [Denoising](tasks/denoising/) | `arpeseed/denoise-v1` | scaffold |
 
 ## Quick start
@@ -19,8 +19,8 @@ Part of the [TensorSpec](https://github.com/fawkesdx/TensorSpec) ecosystem. Trai
 python3 -m venv .venv && source .venv/bin/activate
 pip install -r requirements-arpeseed.txt
 
-# inference (weights downloaded separately — v2.1 recommended)
-python arpeseed_predict.py scan.npy --weights path/to/arpeseed_first_gamma_v2_1.pth
+# inference — v2.2 recommended ([releases](https://github.com/fawkesdx/ARPESeed/releases))
+python arpeseed_predict.py scan.npy --weights path/to/arpeseed_first_gamma_v2_2.pth
 ```
 
 ## Core scripts

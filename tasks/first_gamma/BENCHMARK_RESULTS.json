@@ -1,20 +1,35 @@
 {
   "benchmark": "benchmark_first_gamma_v1",
   "samples": 1500,
-  "samples_per_regime": 500,
-  "date": "2026-09-01",
-  "note": "Full benchmark set (not a held-out split). OOD vs training: oblique lattices, two-band spectra, Lorentzian lineshapes, varied background, +/-10 deg Gamma, small hv steps, slit shadow, dead stripes.",
+  "date": "2026-09-02",
+  "note": "Full OOD benchmark — never train on this set.",
   "models": {
+    "arpeseed/first-gamma-v2.2": {
+      "checkpoint": "arpeseed_first_gamma_v2_2.pth",
+      "best_epoch": 13,
+      "training": "mixed easy + hard-mix (detector artifacts), cached, early stop",
+      "easy_corpus_val": {
+        "n": 10000,
+        "corpus": "corpus_first_gamma_direct",
+        "mse": 3.028,
+        "mean_radial_deg": 1.663,
+        "median_radial_deg": 0.952,
+        "p95_radial_deg": 5.547
+      },
+      "ood_benchmark": {
+        "n": 1500,
+        "mse": 16.606,
+        "mean_radial_deg": 4.421,
+        "median_radial_deg": 3.210,
+        "p95_radial_deg": 11.279
+      }
+    },
     "arpeseed/first-gamma-v2.1": {
       "checkpoint": "arpeseed_first_gamma_v2_1.pth",
       "best_epoch": 14,
-      "training": "hard-mix corpus (--hard-mix), cached, early stop patience 5",
-      "in_distribution_val": {
-        "n": 10000,
-        "corpus": "corpus_first_gamma_hardmix",
-        "mse": 15.691,
-        "mean_radial_deg": 4.363,
-        "note": "val on hard-mix corpus — not comparable to v2 easy-corpus val"
+      "training": "hard-mix only, cached, early stop",
+      "easy_corpus_val": {
+        "note": "not evaluated on easy corpus"
       },
       "ood_benchmark": {
         "n": 1500,
@@ -27,10 +42,9 @@
     "arpeseed/first-gamma-v2": {
       "checkpoint": "arpeseed_first_gamma_v2.pth",
       "best_epoch": 19,
-      "training": "raw easy corpus, 40 epochs, DDP+AMP",
-      "in_distribution_val": {
+      "training": "easy corpus, 40 epochs",
+      "easy_corpus_val": {
         "n": 10000,
-        "corpus": "corpus_first_gamma_direct",
         "mse": 3.961,
         "mean_radial_deg": 1.792,
         "median_radial_deg": 0.826,
@@ -47,24 +61,19 @@
     "arpeseed/first-gamma-v2-es": {
       "checkpoint": "arpeseed_first_gamma_v2_es.pth",
       "best_epoch": 17,
-      "training": "pre-z-scored easy corpus, early stop patience 5",
-      "in_distribution_val": {
+      "training": "easy corpus cached, early stop",
+      "easy_corpus_val": {
         "n": 10000,
-        "corpus": "corpus_first_gamma_direct_cached",
         "mse": 4.101,
-        "mean_radial_deg": 1.888,
-        "median_radial_deg": 0.952,
-        "p95_radial_deg": 6.611
+        "mean_radial_deg": 1.888
       },
       "ood_benchmark": {
         "n": 1500,
         "mse": 22.326,
-        "mean_radial_deg": 5.357,
-        "median_radial_deg": 4.666,
-        "p95_radial_deg": 12.593
+        "mean_radial_deg": 5.357
       }
     }
   },
-  "recommendation": "Default for beamline / varied conditions: first-gamma-v2.1 (best OOD, 4.82 deg mean). Use v2 (1.79 deg val) only when scans match the easy training distribution.",
-  "interpretation": "v2.1 trained on hard-mix synthetic data closes ~11% of the OOD gap vs v2 (5.41 -> 4.82 deg mean). Slit shadows and dead stripes remain benchmark-only; not yet in training generator."
+  "recommendation": "Default: first-gamma-v2.2 — best easy-val (1.66 deg) and OOD (4.42 deg). Older releases kept for reproducibility; see MODEL_HISTORY.md.",
+  "interpretation": "Mixed training closes the v2.1 easy-val regression while improving OOD over all prior checkpoints."
 }
