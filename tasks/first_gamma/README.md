@@ -8,4 +8,6 @@
 
 Also available: `v2` (1.79° easy-corpus val), `v2-es` (training I/O variant).
 
-Weights not in git — train with `arpeseed_gen_direct.py --hard-mix` + `arpeseed_train_eval.py`, or request from maintainer.
+Weights not in git — [GitHub Release v2.1](https://github.com/fawkesdx/ARPESeed/releases/tag/first-gamma-v2.1) or train locally.
+
+**Synthetic training only** — see [MODEL_HISTORY.md](MODEL_HISTORY.md) for all versions.
