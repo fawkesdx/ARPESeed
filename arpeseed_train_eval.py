@@ -48,9 +48,22 @@ _CORPUS = {
     "new_cached": "corpus_first_gamma_direct_cached",
     "hardmix": "corpus_first_gamma_hardmix",
     "hardmix_cached": "corpus_first_gamma_hardmix_cached",
+    "mixed_cached": [
+        "corpus_first_gamma_direct_cached",
+        "corpus_first_gamma_hardmix_cached",
+    ],
     "benchmark": "benchmark_first_gamma_v1",
 }
-CORPORA = {k: os.path.join(_DATA_ROOT, v) for k, v in _CORPUS.items()}
+
+
+def resolve_corpus(corpus_key):
+    spec = _CORPUS[corpus_key]
+    if isinstance(spec, list):
+        return [os.path.join(_DATA_ROOT, name) for name in spec]
+    return os.path.join(_DATA_ROOT, spec)
+
+
+CORPORA = {k: resolve_corpus(k) for k in _CORPUS}
 
 SPLIT_SEED = 12345
 VAL_FRACTION = 0.2
@@ -94,19 +107,21 @@ class FirstGammaDataset(Dataset):
     def __init__(self, corpus_root, indices=None, already_normalized=False):
         self.already_normalized = already_normalized
         self.samples = []
-        for regime in REGIMES:
-            folder = os.path.join(corpus_root, regime)
-            csv_path = os.path.join(folder, "labels.csv")
-            npy_dir = os.path.join(folder, "npy")
-            if not os.path.exists(csv_path):
-                continue
-            with open(csv_path) as f:
-                reader = csv.reader(f)
-                next(reader)
-                for row in reader:
-                    path = os.path.join(npy_dir, row[0])
-                    if os.path.exists(path):
-                        self.samples.append((path, float(row[1]), float(row[2])))
+        roots = corpus_root if isinstance(corpus_root, list) else [corpus_root]
+        for root in roots:
+            for regime in REGIMES:
+                folder = os.path.join(root, regime)
+                csv_path = os.path.join(folder, "labels.csv")
+                npy_dir = os.path.join(folder, "npy")
+                if not os.path.exists(csv_path):
+                    continue
+                with open(csv_path) as f:
+                    reader = csv.reader(f)
+                    next(reader)
+                    for row in reader:
+                        path = os.path.join(npy_dir, row[0])
+                        if os.path.exists(path):
+                            self.samples.append((path, float(row[1]), float(row[2])))
         self.samples.sort()
         if indices is not None:
             self.samples = [self.samples[i] for i in indices]
@@ -218,7 +233,10 @@ def train(corpus, epochs, batch_size, workers, out_prefix, lr, amp=False, early_
         f"amp={amp} device={device}",
     )
 
-    already_norm = corpus.endswith("_cached") or corpus == "new_cached"
+    already_norm = (
+        corpus.endswith("_cached")
+        or corpus == "mixed_cached"
+    )
     train_loader, train_ddp = make_loader(
         root, train_idx, batch_size, workers, True, rank, world_size, already_norm
     )
@@ -358,7 +376,7 @@ def eval_one(model_path, corpus, batch_size, workers):
         indices = list(range(len(FirstGammaDataset(root))))
     else:
         _, indices = split_indices(root)
-    already_norm = corpus.endswith("_cached")
+    already_norm = corpus.endswith("_cached") or corpus == "mixed_cached"
     val_loader, _ = make_loader(
         root, indices, batch_size, workers, False, already_normalized=already_norm
     )

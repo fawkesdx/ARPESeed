@@ -96,6 +96,8 @@ def draw_params(rng, hv_min, hv_max, hard_mix=False):
         v0=rng.uniform(8.0, 24.0) if hard_mix else rng.uniform(10.0, 20.0),
         work_function=rng.uniform(3.8, 5.4) if hard_mix else rng.uniform(4.0, 5.0),
         background=float(rng.choice([2.0, 5.0, 10.0])) if hard_mix else 5.0,
+        slit_shadow=bool(hard_mix and rng.random() < 0.4),
+        dead_stripes=int(rng.integers(0, 3)) if hard_mix else 0,
     )
 
 
@@ -145,6 +147,20 @@ def render_channel(p, hv):
     return clean
 
 
+def apply_detector_artifacts(clean, p, rng):
+    """Slit shadowing (cos^4 vignetting) and dead detector stripes."""
+    out = clean
+    if p.get("slit_shadow"):
+        vign = np.cos(PH_GRID) ** 4 * np.cos(TH_GRID) ** 2
+        out = out * (vign / (vign.max() + 1e-9))
+    for _ in range(int(p.get("dead_stripes", 0))):
+        col = int(rng.integers(0, out.shape[1]))
+        width = int(rng.integers(1, 4))
+        out = out.copy()
+        out[:, col : col + width] = 0.0
+    return out
+
+
 def render_sample(p, rng):
     """Stack of 3 noisy channels, shape (3, 240, 300) float32.
 
@@ -152,9 +168,12 @@ def render_sample(p, rng):
     5.0 count background, pure Poisson.
     """
     bg = p.get("background", 5.0)
-    channels = [
-        rng.poisson(render_channel(p, hv) * 1.0 + bg) for hv in p["energies"]
-    ]
+    channels = []
+    for hv in p["energies"]:
+        clean = render_channel(p, hv)
+        if p.get("slit_shadow") or p.get("dead_stripes", 0) > 0:
+            clean = apply_detector_artifacts(clean, p, rng)
+        channels.append(rng.poisson(clean * 1.0 + bg))
     return np.asarray(channels, dtype=np.float32)
 
 

@@ -2,13 +2,15 @@
 
 Task-oriented mini models for ARPES — synthetic-trained weights for beamline micro-tasks.
 
-Part of the [TensorSpec](https://github.com/fawkesdx/TensorSpec) ecosystem. Training data and checkpoints are **not** in this repo (too large); only code, model cards, and benchmark numbers.
+Part of the [TensorSpec](https://github.com/fawkesdx/TensorSpec) ecosystem. Training data and checkpoints are **not** in git (too large); [GitHub Releases](https://github.com/fawkesdx/ARPESeed/releases) host weights.
+
+> **Synthetic training only.** All models are trained on simulated ARPES stacks — not real beamline data. See [model history](tasks/first_gamma/MODEL_HISTORY.md) for the version lineage and citation IDs.
 
 ## Tasks
 
 | Task | Artifact | Status |
 |------|----------|--------|
-| [First Γ finder](tasks/first_gamma/) | **`arpeseed/first-gamma-v2.1`** (recommended), v2 / v2-es | trained, evaluated |
+| [First Γ finder](tasks/first_gamma/) | **`arpeseed/first-gamma-v2.1`** — [history](tasks/first_gamma/MODEL_HISTORY.md) | trained, evaluated |
 | [Denoising](tasks/denoising/) | `arpeseed/denoise-v1` | scaffold |
 
 ## Quick start
