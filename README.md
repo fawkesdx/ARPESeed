@@ -29,7 +29,7 @@ python arpeseed_predict.py scan.npy --weights path/to/arpeseed_first_gamma_v2_2.
 |--------|---------|
 | `arpeseed_gen_direct.py` | Synthetic corpus generator (correct Γ geometry) |
 | `arpeseed_train_eval.py` | Train / eval ResNet18 Γ regressor |
-| `arpeseed_predict.py` | Local inference CLI |
+| `arpeseed_predict.py` | Local inference CLI (auto-resizes any `(3,H,W)` → `(3,240,300)`) |
 | `arpeseed_benchmark.py` | OOD benchmark generation + scoring |
 | `arpeseed_cache_normalized.py` | Pre-z-score corpus for faster training |
 

@@ -30,24 +30,22 @@ production use. No uncertainty estimate.
 
 ## Inputs and outputs
 
-`float32` `(3, 240, 300)`, φ ∈ ±15°, θ ∈ ±12°, per-channel z-score normalization.
+Training grid: `float32` `(3, 240, 300)`, φ ∈ ±15°, θ ∈ ±12°, per-channel z-score.
 Output `(x_gamma, y_gamma)` in degrees (φ, θ).
 
+**Any `(3, H, W)` accepted** — `arpeseed_predict.py` bilinear-resizes to `(240, 300)`
+before normalization (no shape error). Prefer that path over hand-rolled loading.
+
+**Single isoenergy map** `(H, W)` or `(1, H, W)` also accepted: image is duplicated into
+three identical channels with a warning. Prefer three different photon energies — the
+model uses hν-dependent pattern scaling; single-map mode is a degraded fallback.
+
 ```python
-import numpy as np, torch
-from torchvision.models import resnet18
+from arpeseed_predict import load_model, predict
+import numpy as np
 
-model = resnet18(weights=None)
-model.fc = torch.nn.Linear(model.fc.in_features, 2)
-model.load_state_dict(torch.load("arpeseed_first_gamma_v2_2.pth", map_location="cpu"))
-model.eval()
-
-x = np.load("scan.npy").astype(np.float32)
-for c in range(3):
-    x[c] = (x[c] - x[c].mean()) / (x[c].std() or 1.0)
-
-with torch.no_grad():
-    phi_gamma, theta_gamma = model(torch.from_numpy(x)[None]).numpy()[0]
+model = load_model("arpeseed_first_gamma_v2_2.pth")
+phi, theta = predict(np.load("scan.npy"), model)  # any (3, H, W)
 ```
 
 Or: `python arpeseed_predict.py scan.npy --weights arpeseed_first_gamma_v2_2.pth`
