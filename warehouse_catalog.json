@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "models": [
+    {
+      "artifact_id": "arpeseed/first-gamma-v2.2",
+      "task": "first_gamma",
+      "version": "2.2",
+      "slug": "first-gamma-v2.2",
+      "weights_file": "arpeseed_first_gamma_v2_2.pth",
+      "release_tag": "first-gamma-v2.2",
+      "weights_url": "https://github.com/fawkesdx/ARPESeed/releases/download/first-gamma-v2.2/arpeseed_first_gamma_v2_2.pth",
+      "model_card_url": "https://raw.githubusercontent.com/fawkesdx/ARPESeed/main/tasks/first_gamma/MODEL_CARD.md",
+      "synthetic_training_only": true,
+      "input_shape": [3, 240, 300],
+      "output": "phi_theta_deg",
+      "disclaimer": "Synthetic training only. Not validated on real beamline data."
+    }
+  ]
+}
