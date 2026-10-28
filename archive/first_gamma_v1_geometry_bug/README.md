@@ -82,7 +82,7 @@ ky = A * (np.sin(TH) - np.sin(th0))
 | | v1 (this tombstone) | v2 (current) |
 | --- | --- | --- |
 | Generator | `generate_full_corpus_fast.py` | `arpeseed_gen_direct.py` |
-| Corpus path (Einstein) | ~~`.../corpus_finding_first_gamma/`~~ deleted | `/mnt/data/sandy/tensorspec_heavy/corpus_first_gamma_direct/` |
+| Corpus path (Einstein) | ~~`.../corpus_finding_first_gamma/`~~ deleted | `/mnt/data/<user>/tensorspec_heavy/corpus_first_gamma_direct/` |
 | Geometry | `sin(φ−φ₀)`, no `cos θ` | Momentum-space offset, full slit projection |
 | Model artifact | `arpeseed/first-gamma-v1` (buggy, kept for history) | `arpeseed/first-gamma-v2` (train on v2 corpus) |
 
