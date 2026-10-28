@@ -62,3 +62,21 @@ embed_base64.py
 # Logs
 *.log
 arpeseed_train.log*
+
+# --- secrets and credentials: never commit (added 2026-10-28) ---
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+id_rsa*
+id_ed25519*
+*.token
+.netrc
+.pypirc
+credentials*.json
+*secrets*.json
+service-account*.json
+.tensorspec_clusters.json
