@@ -1,7 +1,11 @@
+# Security updates only.
+# open-pull-requests-limit: 0 disables Dependabot *version* updates for pip
+# (no more "raise the minimum range" PRs) while GitHub's Dependabot
+# *security* updates (enabled in repo settings) keep opening PRs for CVEs.
 version: 2
 updates:
   - package-ecosystem: pip
     directory: /
     schedule:
       interval: weekly
-    open-pull-requests-limit: 5
+    open-pull-requests-limit: 0
