@@ -42,3 +42,15 @@ Set `ARPESEED_DATA_ROOT` to your corpus parent directory (default in scripts is 
 ## Citation
 
 Sandy Adhitia Ekahana, LBNL. Contact: sekahana@lbl.gov
+
+## Privacy guard
+
+This repository is public. `scripts/privacy_check.sh` blocks personal home paths, cluster logins,
+personal e-mails and credentials from being committed or pushed (`.privacy-denylist`, with
+placeholders allowed by `.privacy-allowlist`). Enable the hooks once per clone:
+
+```bash
+git config core.hooksPath .githooks
+```
+
+Audit the whole tree at any time with `scripts/privacy_check.sh --tree`.
