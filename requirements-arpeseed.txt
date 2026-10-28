@@ -3,5 +3,5 @@
 
 numpy>=1.24
 torch>=2.2
-torchvision>=0.17
+torchvision>=0.29.1
 matplotlib>=3.8
